@@ -27,7 +27,10 @@ graph.addModeled (0, h) # add intial vaules
 
 # TIME LOOP
 for t in range (1, nsteps) :
-   
+    newH = k * dt + h 
+    
+   #dh/dt = K
+
 # DRAW GRAPH
 graph.keepOpen () 
 

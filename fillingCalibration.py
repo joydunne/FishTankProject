@@ -5,15 +5,15 @@ from jStats import *
 # Finite Difference Model
 
 #PARAMETERS
-dt = 1
-nsteps = 1200
+dt = 10
+nsteps = 120
 
 mh = 28 #max height 
 l = 50 #length 
 w = 25 #width
-q = 0.0054 #inflow rate cm/sec (volume)
+q = 0.011 #inflow rate cm/sec (volume)
 h = 0 #intial height (cm)
-k = 0.0056 #outflow rate 
+k = -0.0115 #outflow rate 
 
 # EXPERIMENTAL DATA
 x_measured = [97.14, 187.82, 278, 382.88, 466.56, 560.2, 659.41, 748.09, 835.63, 923.19, 1007.6, 1099.21, 1188.98]
@@ -25,34 +25,20 @@ graph = ezGraphMM (xmin=0, xmax=100, xLabel= "Time (s)", yLabel= "Height (cm)", 
 
 graph.addModeled (0, h) # add intial vaules 
 
+
 # TIME LOOP
 for t in range (1, nsteps) :
-    h = k * dt + h 
+    modelTime = t * dt 
+    if modelTime < 660:
+        h = q * dt + h 
+    else:
+        h = k * dt + h 
 
-    graph.addModeled (t, h)
+
+    graph.addModeled (t * dt, h)
     graph.wait 
 
    #dh/dt = K
 
 # DRAW GRAPH
-graph.keepOpen () 
-
-
-
- #modelTime = t * dt
-
-    #Filling
-    #dh = Qin * dt / (np.pi * r **2) #find the change in height
-
-    #h = h + dh #update height
-
-    # Draining
-    #dVdt = -k * h
-    #dh = dVdt * dt / (np.pi * r **2) #np.pi = pi 
-    #h = h + dh
-
-    #if (modelTime in x_measured):
-        #print(modelTime , h)
-        #y_modeled.append (h)
-    #graph.addModeled (modelTime , h)
-    #graph.wait (0.8)
+graph.keepOpen ()
